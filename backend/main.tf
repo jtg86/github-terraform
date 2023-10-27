@@ -5,6 +5,14 @@ terraform {
       version = "3.78.0"
     }
   }
+
+  backend "azurerm" {
+    resource_group_name  = "rg-backend-tfstateJT"
+    storage_account_name = "sabetfs263gk2qo42"
+    container_name       = "tfstate"
+    key                  = "backend.terraform.tfstate"
+
+  }
 }
 
 provider "azurerm" {
@@ -17,10 +25,11 @@ provider "azurerm" {
 }
 
 resource "random_string" "random_string" {
-    length = 10
-    special = false
-    upper = false
+  length  = 10
+  special = false
+  upper   = false
 }
+
 
 
 resource "azurerm_resource_group" "rg_backend" {
