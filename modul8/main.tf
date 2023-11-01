@@ -1,6 +1,8 @@
 locals {
   workspaces_ending = terraform.workspace == "default" ? "" : "${terraform.workspace}"
-  rg_name = "${var.rg_name}-${local.workspaces_ending}"
+
+  rg_name = terraform.workspace == "default" ? "${var.rg_name}" : "${var.rg_name}-${local.workspaces_ending}"
+  sa_name = terraform.workspace == "default" ? "${var.sa_name}" : "${sa_name}-${local.workspaces_ending}"
 }
 
 resource "random_id" "unique_suffix" {
@@ -10,9 +12,9 @@ resource "random_id" "unique_suffix" {
   }
 }
 
-resource "azurerm_resource_group" "rg" {
+resource "azurerm_resource_group" "rg_webJT" {
   name     = local.rg_name
-  location = var.rg_location
+  location = var.location
 }
 
 output "rg_name" {
@@ -20,9 +22,9 @@ output "rg_name" {
 }
 
 resource "azurerm_storage_account" "sa" {
-  name                     = "satf${lower(local.workspaces_ending)}${random_id.unique_suffix.hex}"
+  name                     = "${lower(local.workspaces_ending)}${random_id.unique_suffix.hex}"
   resource_group_name      = azurerm_resource_group.rg.name
-  location                 = var.rg_location
+  location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
   account_kind             = "StorageV2"
@@ -31,7 +33,7 @@ resource "azurerm_storage_account" "sa" {
   }
 }
 
-resource "azurerm_storage_container" "website_containernummeren" {
+resource "azurerm_storage_container" "website_container" {
   name                  = var.webpage
   storage_account_name  = azurerm_storage_account.sa.name
   container_access_type = "blob"
@@ -51,4 +53,9 @@ resource "azurerm_storage_blob" "website_blob" {
     </body>
 </html>
 CONTENT
+}
+
+output "primary_web_endpoint" {
+    value = azurerm_storage_account.sa_web_endpoint
+  
 }
