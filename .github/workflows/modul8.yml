@@ -4,7 +4,7 @@ on:
 
   push:
     paths:
-      - 'modul8/**'
+      - 'github-terraform/modul8/**'
 
   workflow_dispatch:
 
