@@ -7,6 +7,13 @@ on:
       - 'modul8/**'
 
   workflow_dispatch:
+    inputs:
+      action_type:
+        description: 'What actoon should be performed?   (apply/destroy)'
+        required: true
+        default: 'apply'
+        
+    
 
 jobs:
 
@@ -38,8 +45,14 @@ jobs:
         working-directory: ${{ env.WORKING_DIR }}
 
       - name: 'Terraform apply'
+        if: github.event.inputs.action_type == 'apply'
         id: apply
         run: terraform apply -auto-approve
+        working-directory: ${{ env.WORKING_DIR }}
+
+      - name: 'Terraform destroy'
+        if: github.event.inputs.action_type == 'destroy'
+        run: terraform destroy -auto-approve
         working-directory: ${{ env.WORKING_DIR }}
 
 
