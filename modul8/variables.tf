@@ -22,5 +22,5 @@ variable "location" {
 variable "webpage" {
   description = "Name of the webpage"
   type        = string
-  default = "minwebside"
+  default = "minwebside01"
 }
