@@ -72,15 +72,15 @@ resource "azurerm_key_vault" "kv_backend" {
     object_id = data.azurerm_client_config.current.object_id
 
     key_permissions = [
-      "Get",
+      "Get","List","Create"
     ]
 
     secret_permissions = [
-      "Get", "Set"
+      "Get","List","Create"
     ]
 
     storage_permissions = [
-      "Get",
+      "Get","List","Create"
     ]
   }
 }
