@@ -21,7 +21,6 @@ variable "sc_backend_name" {
 variable "kv_backend_name" {
     type = string
     description = "Navn til keyvault" 
-    default = "keyvaultjt001"
 }
 
 variable "sa_backend_accesskey_name" {

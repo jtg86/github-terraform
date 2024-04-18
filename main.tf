@@ -8,12 +8,12 @@ terraform {
 
   backend "azurerm" {
     resource_group_name  = "rg-backend-tfstateJT"
-    storage_account_name = "sabetfs1wtjl5s5wy" # Oppdatert med det faktiske navnet
+    storage_account_name = "sabetfs263gk2qo42"
     container_name       = "tfstate"
     key                  = "backend.terraform.tfstate"
+
   }
 }
-
 
 provider "azurerm" {
   features {
@@ -63,7 +63,7 @@ resource "azurerm_key_vault" "kv_backend" {
   enabled_for_disk_encryption = true
   tenant_id                   = data.azurerm_client_config.current.tenant_id
   soft_delete_retention_days  = 7
-  purge_protection_enabled    = true
+  purge_protection_enabled    = false
 
   sku_name = "standard"
 
@@ -72,15 +72,15 @@ resource "azurerm_key_vault" "kv_backend" {
     object_id = data.azurerm_client_config.current.object_id
 
     key_permissions = [
-      "Get","List","Create"
+      "Get",
     ]
 
     secret_permissions = [
-      "Get","List","Set"
+      "Get", "Set"
     ]
 
     storage_permissions = [
-      "Get","List","Set"
+      "Get",
     ]
   }
 }
